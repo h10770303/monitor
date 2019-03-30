@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.VoteDao">
+
+<resultMap type="com.hh.test.pojo.vote.Candidate" id="CandidateResult">
+  <result property="id" column="id"></result>
+  <result property="starType" column="starType"></result>
+  <result property="userId" column="userId"></result>
+  <result property="userName" column="userName"></result>
+  <result property="partment" column="partment"></result>
+  <result property="sex" column="sex"></result>
+</resultMap>
+
+<resultMap type="com.hh.test.pojo.vote.PartmentCnt" id="PartmentCntResult">
+  <result property="partment" column="partment"></result>
+  <result property="candidate" column="candidate"></result>
+  <result property="cnt" column="cnt"></result>
+</resultMap>
+<resultMap type="com.hh.test.pojo.vote.Votor" id="VotorResult">
+  <result property="id" column="id"></result>
+  <result property="userId" column="userId"></result>
+  <result property="userName" column="userName"></result>
+  <result property="partment" column="partment"></result>
+</resultMap>
+<resultMap type="com.hh.test.pojo.vote.VoteReuslt" id="VoteReuslt">
+  <result property="id" column="id"></result>
+  <result property="partment" column="partment"></result>
+  <result property="userName" column="userName"></result>
+  <result property="starType" column="starType"></result>
+  <result property="candidate" column="candidate"></result>
+  <result property="createTime" javaType="java.util.Date"
+			column="createTime" jdbcType="TIMESTAMP"></result>
+</resultMap>
+
+<select id="getCandidateById" resultMap="CandidateResult">
+SELECT *  FROM vt_candidate vt
+WHERE vt.`startype`=#{starType}
+ORDER BY vt.`id` ASC
+</select>
+<select id="getVotorByName" resultMap="VotorResult">
+SELECT *  FROM `vt_votor` v
+WHERE v.`username`=#{userName}
+</select>
+<select id="getVotedByName" resultMap="VoteReuslt">
+SELECT *  FROM vt_voteresult v
+WHERE v.`username`=#{userName}
+ORDER BY v.`startype` ASC
+</select>
+
+<insert id="setVote">
+INSERT INTO vt_voteresult(id,partment,username,startype,candidate,createtime)
+VALUES(#{id},#{partment},#{userName},#{starType},#{candidate},#{createTime});
+</insert>
+
+<select id="getVotePartment" resultMap="PartmentCntResult">
+SELECT vt.`partment` partment,COUNT(0)/22 cnt FROM `vt_voteresult` vt
+GROUP BY vt.`partment`
+ORDER BY vt.`partment`
+</select>
+
+<select id="candidateTop10" resultMap="PartmentCntResult">
+SELECT * FROM(
+SELECT vt.`candidate` candidate ,COUNT(0)cnt FROM `vt_voteresult` vt
+GROUP BY vt.`candidate`) b
+ORDER BY b.cnt DESC
+LIMIT 0,10
+</select>
+
+
+</mapper>

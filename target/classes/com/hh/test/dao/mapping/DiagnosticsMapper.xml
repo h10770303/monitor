@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.DiagnosticsDao">
+
+
+<resultMap type="com.hh.test.pojo.diagnostics.Message" id="MessageReuslt">
+  <result property="id" column="id"></result>
+  <result property="limits" column="limits"></result>
+  <result property="marks" column="marks"></result>
+  <result property="duration" column="duration"></result>
+  <result property="hostName" column="hostName"></result>
+  <result property="time" javaType="java.util.Date"
+			column="time" jdbcType="TIMESTAMP"></result>
+</resultMap>
+<resultMap type="com.hh.test.pojo.diagnostics.MessageTime" id="MessageTimeReuslt">
+  <result property="time" column="time"></result>
+  <result property="cnt" column="cnt"></result>
+</resultMap>
+
+
+
+<insert id="insertMessage">
+INSERT INTO log_message(id,limits,marks,duration,hostName,time) 
+VALUES(#{id},#{limits},#{marks},#{duration},#{hostName},#{time});
+</insert>
+
+<select id="findMessage" resultMap="MessageReuslt">
+SELECT *  FROM log_message l
+WHERE l.`id`=#{id}
+AND  l.`limits`=#{limits}
+AND  l.`hostName`=#{hostName}
+AND  l.`duration`=#{duration}
+</select>
+
+<select id="messageGroupId" resultMap="MessageReuslt">
+<![CDATA[
+SELECT DISTINCT l.`id` FROM log_message l
+WHERE l.`duration`<>'00:00:00:00'
+ORDER BY l.`time` ASC
+]]>
+</select>
+
+<select id="getMessageById" resultMap="MessageReuslt">
+<![CDATA[
+SELECT *FROM log_message l
+WHERE 1=1
+and l.`duration` <> '00:00:00:00'
+AND l.`id`=#{id}
+ORDER BY l.`time` ASC,l.`hostName` ASC
+]]>
+</select>
+<select id="getMessageAll" resultMap="MessageReuslt">
+<![CDATA[
+SELECT *FROM log_message l
+WHERE 1=1
+and l.`duration` <> '00:00:00:00'
+ORDER BY l.`time` ASC
+]]>
+</select>
+<select id="getMessageGroupTime" resultMap="MessageTimeReuslt">
+<![CDATA[
+SELECT b.t TIME,COUNT(0)cnt FROM(
+SELECT DATE_FORMAT(l.`time`,'%Y-%m-%d %H:%I') t,l.* FROM log_message l
+WHERE l.`duration`<>'00:00:00:00'
+ORDER BY l.`time` ASC)b
+GROUP BY b.t 
+]]>
+</select>
+<select id="getMessageGroupTime2" resultMap="MessageTimeReuslt">
+<![CDATA[
+SELECT COUNT(0)cnt FROM(
+SELECT DATE_FORMAT(l.`time`,'%H:%i:%S')TIME,l.id,l.`duration`,l.`hostName` FROM log_message l
+WHERE  l.`duration` <> '00:00:00:00')b
+WHERE b.time BETWEEN #{beginTime} AND #{endTime}
+]]>
+</select>
+
+
+<update id="updateMessageTime">
+UPDATE log_message l
+SET TIME=#{time}
+WHERE l.`id`=#{id}
+AND  l.`limits`=#{limits}
+AND  l.`hostName`=#{hostName}
+AND  l.`duration`=#{duration}
+</update>
+
+
+
+</mapper>

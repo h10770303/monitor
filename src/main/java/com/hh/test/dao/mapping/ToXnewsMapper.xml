@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.ToXnewsDao">
+
+
+	<resultMap type="com.hh.test.pojo.ProgramNode" id="programNodeResult">
+		<id property="id" column="id" />
+		<result property="programID" column="programID"></result>
+		<result property="programTitle" column="programTitle"></result>
+		<result property="bussinessID" column="bussinessID"></result>
+		<result property="businessName" column="businessName"></result>
+		<result property="createBy" column="createBy"></result>
+		<result property="modifyBy" column="modifyBy"></result>
+		<result property="createTimed" javaType="java.util.Date"
+			column="createTime" jdbcType="TIMESTAMP"></result>
+		<result property="modifyTimed" javaType="java.util.Date"
+			column="modifyTime" jdbcType="TIMESTAMP"></result>
+		<result property="duration" column="duration"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+	<resultMap type="com.hh.test.pojo.bean.ProgramFlowBean" id="programFlowBeanResult">
+		<result property="programID" column="programID"></result>
+		<result property="programTitle" column="programTitle"></result>
+		<result property="duration" column="duration"></result>
+		<result property="createBy" column="createBy"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="TIMESTAMP"></result>
+		<result property="diffTime" column="diffTime"></result>
+		<result property="ifFinished" column="ifFinished"></result>
+		<result property="ifHasError" column="ifHasError"></result>
+		<result property="errorInfo" column="errorInfo"></result>
+		<result property="msgInfo" column="msgInfo"></result>
+		<result property="maxNode" column="maxNode"></result>
+	</resultMap>
+	<resultMap type="com.hh.test.pojo.BussinessNode" id="bussinessNodeResult">
+		<id property="id" column="id" />
+		<result property="nodeID" column="nodeID"></result>
+		<result property="programID" column="programID"></result>
+		<result property="nodeName" column="nodeName"></result>
+		<result property="startTimed" javaType="java.util.Date" column="startTime"
+			jdbcType="TIMESTAMP"></result>
+		<result property="endTimed" javaType="java.util.Date" column="endTime"
+			jdbcType="TIMESTAMP"></result>
+		<result property="ifFinished" column="ifFinished"></result>
+		<result property="ifHasError" column="ifHasError"></result>
+		<result property="errorInfo" column="errorInfo"></result>
+		<result property="exeName" column="exeName"></result>
+		<result property="nodeIP" column="nodeIP"></result>
+		<result property="msgInfo" column="msgInfo"></result>
+	</resultMap>
+	<resultMap type="com.hh.test.pojo.bean.BussinessNodeBean" id="bussinessNodeBeanResult">
+		<id property="id" column="id" />
+		<result property="nodeID" column="nodeID"></result>
+		<result property="programID" column="programID"></result>
+		<result property="nodeName" column="nodeName"></result>
+		<result property="startTime" javaType="java.util.Date" column="startTime"
+			jdbcType="TIMESTAMP"></result>
+		<result property="endTime" javaType="java.util.Date" column="endTime"
+			jdbcType="TIMESTAMP"></result>
+		<result property="ifFinished" column="ifFinished"></result>
+		<result property="ifHasError" column="ifHasError"></result>
+		<result property="errorInfo" column="errorInfo"></result>
+		<result property="exeName" column="exeName"></result>
+		<result property="nodeIP" column="nodeIP"></result>
+		<result property="msgInfo" column="msgInfo"></result>
+		<result property="msgInfo" column="msgInfo"></result>
+		<result property="isDeal" column="isDeal"></result>
+	</resultMap>
+	<resultMap type="com.hh.test.pojo.ProcessinstanceMod" id="processinstanceModResult">
+		<id property="id" column="id" />
+		<result property="moid" column="moid"></result>
+		<result property="processInstanceName" column="processInstanceName"></result>
+		<result property="creator" column="creator"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+	<resultMap type="com.hh.test.pojo.bean.ToXnewsCnt" id="toXnewsCntResult">
+		<result property="count" column="count"></result>
+		<result property="kankanCnt" column="kankanCnt"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.AssetRelationships" id="RelationshipsResult">
+		<result property="moid" column="moid"></result>
+		<result property="anothermoid" column="anothermoid"></result>
+		<result property="relationshipType" column="relationshipType"></result>
+	</resultMap>
+
+	<resultMap type="com.hh.test.pojo.XnewsData" id="xnewsDataResult">
+		<id property="moid" column="moid" />
+		<result property="assetcategoryId" column="assetcategoryid"></result>
+		<result property="createdBy" column="createdby"></result>
+		<result property="bumen" column="bumen"></result>
+		<result property="assetName" column="assetname"></result>
+		<result property="creationTime" javaType="java.util.Date"
+			column="creationtime" jdbcType="TIMESTAMP"></result>
+		<result property="assetDate" javaType="java.util.Date" column="assetdate"
+			jdbcType="TIMESTAMP"></result>
+		<result property="target" column="target"></result>
+		<result property="platform" column="platform"></result>
+		<result property="site" column="site"></result>
+		<result property="createdto" column="createdto"></result>
+		<result property="videoFlag" column="videoFlag"></result>
+		<result property="picFlag" column="picFlag"></result>
+	</resultMap>
+
+
+
+	<select id="getBussinessNodeByProgramID" resultMap="bussinessNodeResult">
+		SELECT * FROM
+		`m_bussinessnode` b
+		WHERE b.`programID`=#{programID}
+		ORDER BY
+		b.`nodeName` ASC
+	</select>
+	<select id="getBussinessNodeByID" resultMap="bussinessNodeResult">
+		SELECT * FROM
+		`m_bussinessnode` b
+		WHERE b.`programID`=#{programID}
+		AND
+		b.`nodeID`=#{nodeId}
+	</select>
+	<delete id="delteBussinessNode">
+		DELETE FROM `m_bussinessnode`
+		WHERE `programID`=#{programID}
+		AND `nodeID`=#{nodeId}
+	</delete>
+
+	<select id="getProcessinstanceModByName" resultMap="processinstanceModResult">
+		SELECT * FROM
+		`wf_processinstancemod` wf
+		WHERE
+		wf.`ProcessInstanceName`=#{processName}
+		AND wf.`createtime`>=#{endTime}
+	</select>
+	<select id="getProcessinstanceModByMoid" resultMap="processinstanceModResult">
+		SELECT * FROM `wf_processinstancemod` wf
+		WHERE wf.`moid`=#{moId}
+	</select>
+
+	<insert id="insertProgramNode">
+		INSERT INTO
+		m_programNode(id,programID,programTitle,bussinessID,businessName,createBy,modifyBy,createTime,modifyTime,duration)
+		VALUES(#{id},#{programID},#{programTitle},#{bussinessID},#{businessName},#{createBy},#{modifyBy},#{createTimed},#{modifyTimed},#{duration})
+	</insert>
+
+	<insert id="insertBussinessNodeBean">
+		INSERT INTO
+		m_bussinessNode(id,nodeID,programID,nodeName,startTime,endTime,ifFinished,ifHasError,errorInfo,exeName,nodeIP,msgInfo)
+		VALUE(#{id},#{nodeID},#{programID},#{nodeName},#{startTime},#{endTime},#{ifFinished},#{ifHasError},#{errorInfo},#{exeName},#{nodeIP},#{msgInfo})
+	</insert>
+
+	<select id="getProgramNodeById" resultMap="programNodeResult">
+		SELECT * FROM
+		`m_programNode` p
+		WHERE p.`programID`=#{programID}
+	</select>
+	
+	<select id="getProgramFlowBeanById" resultMap="programFlowBeanResult">
+		SELECT * FROM
+		`m_programNode` p
+		WHERE p.`programID`=#{programID}
+	</select>
+
+	<select id="getProgramNodeByProgramID" resultMap="bussinessNodeResult">
+		SELECT * FROM
+		m_bussinessNode b
+		WHERE b.`programID`=#{programID}
+		ORDER BY
+		b.`startTime` ASC
+	</select>
+
+	<select id="getProgramNodeByTime" resultMap="programNodeResult">
+		SELECT * FROM
+		`m_programNode` p
+		WHERE p.`createTime`BETWEEN #{beginTime} AND
+		#{endTime}
+		ORDER BY p.`createTime` DESC
+	</select>
+	<select id="getProgramFlowBeanByTime" resultMap="programFlowBeanResult">
+		SELECT * FROM
+		`m_programNode` p
+		WHERE p.`createTime`BETWEEN #{beginTime}
+		AND
+		#{endTime}
+		ORDER BY p.`createTime` DESC
+		<if test="pageNo != null ">limit #{pageNo},#{pageSize} </if>
+	</select>
+
+	<select id="getProgramFlowBeanBySearchType" resultMap="programFlowBeanResult">
+	<![CDATA[
+		SELECT p.*,(SELECT MAX(b.nodename)FROM m_bussinessnode b WHERE b.programID=p.`programID`) maxNode FROM
+		`m_programNode` p
+		WHERE p.`createTime`BETWEEN '${startDt}'
+		AND
+		'${endDt}'
+		]]>
+		<if test="programTitle != ''">
+			and p.programTitle like CONCAT('%','${programTitle}','%')
+		</if>
+		ORDER BY
+		<if test="sortName != null"> ${sortName} ${sortOrder},</if>
+		p.`createTime` DESC
+		<if test="pageSize !=0 "> limit ${pageNo},${pageSize} </if>
+	</select>
+	<select id="getProgramFlowBeanBySearchTypeCnt" resultType="int">
+		SELECT count(0) FROM
+		`m_programNode` p
+		WHERE p.`createTime`BETWEEN
+		#{startDt}
+		AND
+		#{endDt}
+		<if test="programTitle != ''">
+			and p.programTitle like CONCAT('%','${programTitle}','%')
+		</if>
+	</select>
+
+	<select id="getProgramFlowBeanByIsKankan" resultMap="programFlowBeanResult">
+		SELECT *
+		FROM `m_programNode` p,`m_bussinessnode` b
+		WHERE
+		p.`programID`=b.`programID`
+		AND p.`createTime`BETWEEN #{beginTime} AND
+		#{endTime}
+		AND p.`ifFinished`=1
+		AND p.`isKankan`!=1
+		AND b.`nodeName`=6
+		ORDER BY p.`createTime` ASC
+	</select>
+
+
+	<update id="updateProgramNode">
+		UPDATE m_programnode p
+		SET p.`programID`=#{programID}
+		<if test="ifHasError != null">,p.`ifHasError`=#{ifHasError}</if>
+		<if test="errorInfo != null">,p.`errorInfo`=#{errorInfo}</if>
+		<if test="diffTime != null">,p.`diffTime`=#{diffTime}</if>
+		<if test="ifFinished != null">,p.`ifFinished`=#{ifFinished}</if>
+		<if test="isKankan != null">,p.`isKankan`=#{isKankan}</if>
+		<if test="titleId != null">,p.`titleId`=#{titleId}</if>
+		WHERE p.`programID`=#{programID}
+	</update>
+	
+	<update id="updateBussiness">
+		UPDATE `m_bussinessnode` b
+		SET b.`isDeal`=#{isDeal}
+		WHERE b.`id`=#{id}
+	</update>
+
+
+	<select id="getProgramnodeCnt" resultMap="toXnewsCntResult">
+		SELECT COUNT(0) count,
+		(SELECT COUNT(0) FROM m_programnode pp WHERE
+		DATE_FORMAT(pp.`createTime`,'%Y-%m-%d')=DATE_FORMAT(p.`createTime`,'%Y-%m-%d')
+		AND pp.isKankan=1)kankanCnt,
+		DATE_FORMAT(p.`createTime`,'%Y-%m-%d')createTime
+		FROM `m_programnode` p
+		WHERE p.`createTime` BETWEEN #{startDt} AND #{endDt}
+		GROUP BY DATE_FORMAT(p.`createTime`,'%Y-%m-%d')
+		ORDER BY p.`createTime` DESC
+	</select>
+
+	<select id="getXnewsDataByMoid" resultMap="xnewsDataResult">
+		SELECT a.`moid`,a.`assetcategoryid`,a.`assetname`,a.`createdby`,a.`creationdate` assetDate
+		 FROM `as_assets` a
+		WHERE a.`moid`=#{msgInfo}
+	</select>
+	
+	<select id="getRelationships" resultMap="RelationshipsResult">
+		SELECT *  FROM as_relationships r
+		WHERE r.`anothermoid`=#{moid}
+	</select>
+	
+	<select id="getBussinessNode" resultMap="bussinessNodeBeanResult">
+		SELECT *  FROM `m_bussinessnode` b
+		WHERE  b.`startTime` BETWEEN #{beginTime} AND #{endTime}
+		AND b.`nodeName`=#{nodeName}
+		<if test="msgInfo != null "> AND b.`msgInfo` IS NOT NULL </if>
+		AND b.`isdeal`=#{isDeal}
+	</select>
+
+</mapper>

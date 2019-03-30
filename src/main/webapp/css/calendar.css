@@ -1,0 +1,123 @@
+@charset "utf-8";
+/*日历插件样式*/
+.calendar {
+	height: 100%;
+}
+
+.calendar-heading {
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd; //
+	box-shadow: 1px 0 3px #ddd, 0 0 3px #fff inset;
+}
+
+.calendar-heading .title {
+	float: left;
+	white-space: nowrap;
+}
+
+.calendar-heading .main {
+	line-height: 54px;
+}
+
+.calendar-heading .main .calendar_title_warp {
+	display: inline-block;
+	line-height: 35px;
+}
+
+.calendar-heading .main .calendar_title_warp i {
+	padding: 0px 15px;
+}
+
+.calendar-heading .main .pull-left {
+	padding-left: 20px;
+}
+
+.calendar-heading .main .pull-right {
+	padding-right: 20px;
+}
+
+.calendar-heading .main .calendar_title {
+	display: inline-block;
+}
+
+.calendar-heading .title>h3 {
+	display: inline;
+	font-size: 20px;
+	line-height: 54px;
+	margin: 0;
+	min-width: 100px;
+}
+
+.calendar-content {
+	border: 1px solid #ddd;
+	box-shadow: 0 0 3px #ddd, 0 0 3px #fff inset;
+	margin: 15px;
+	padding: 15px;
+	min-height: 90%;
+	min-height: -moz-calc(100% - 56px - 30px);
+	min-height: -webkit-calc(100% - 56px - 30px);
+	min-height: calc(100% - 56px - 30px);
+}
+
+.calendar-content table {
+	width: 100%;
+}
+
+.calendar-content table>thead>tr>th {
+	text-align: center;
+	width:14%;
+}
+
+.calendar-content table>tbody>tr>td {
+	border-width: 1px 0 0 1px;
+	border-color: #ddd;
+	border-style: solid;
+	vertical-align: top;
+}
+
+.calendar-content table>tbody>tr>td:HOVER {
+	background-color: #f7f7f4
+}
+
+.calendar-month table>tbody>tr>td>div {
+	min-height: 86px;
+}
+
+.calendar-week table>tbody>tr>td>div {
+	min-height: 430px;
+}
+
+.calendar-content table>tbody>tr>td:first-child {
+	background: none repeat scroll 0 0 #f9f9f7;
+}
+
+.calendar-content table>tbody>tr>td:last-child {
+	border-right-width: 1px;
+	background: none repeat scroll 0 0 #f9f9f7;
+}
+
+.calendar-content table>tbody>tr:last-child>td {
+	border-bottom-width: 1px;
+}
+
+.calendar-content .day-number {
+	float: right;
+	padding: 0 2px;
+}
+
+.calendar-week .day-number {
+	display: none;
+}
+
+.calendar-content .day-content {
+	clear: both;
+	padding: 2px 2px 1px;
+}
+
+.calendar-content .other-month .day-number {
+	opacity: 0.2;
+}
+
+.calendar-content .today {
+	background: none repeat scroll 0 0 #fcf8e3;
+}

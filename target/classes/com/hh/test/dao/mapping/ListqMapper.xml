@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.ListqDao">
+
+	<resultMap type="com.hh.test.pojo.rundown.InewsMonOn" id="inewMonOn">
+		<result property="id" column="id"></result>
+		<result property="day" column="day"></result>
+		<result property="time" column="time"></result>
+		<result property="studio" column="studio"></result>
+		<result property="inewsServer" column="inewsServer"></result>
+		<result property="createBy" column="createBy"></result>
+		<result property="queue" column="queue"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="TIMESTAMP"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.rundown.NcRestart" id="ncrestart">
+		<result property="host_id" column="host_id"></result>
+		<result property="alias" column="alias"></result>
+		<result property="address" column="address"></result>
+		<result property="start_time" javaType="java.util.Date" column="start_time"
+			jdbcType="TIMESTAMP"></result>
+		<result property="output" column="output"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.rundown.NcStatus" id="ncstatus">
+		<result property="id" column="id"></result>
+		<result property="alias" column="alias"></result>
+		<result property="address" column="address"></result>
+		<result property="createDate" javaType="java.util.Date" column="createDate"
+			jdbcType="TIMESTAMP"></result>
+		<result property="status" column="status"></result>
+	</resultMap>
+	<resultMap type="com.hh.test.pojo.rundown.TestRunAlert" id="testRunAlert">
+		<result property="id" column="id"></result>
+		<result property="message" column="message"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="TIMESTAMP"></result>
+	</resultMap>
+	
+	<select id="getInewsMonOn" resultMap="inewMonOn">
+		SELECT * FROM inews_monon i
+		where 1=1
+		<if test="day != ''">
+			and i.day =#{day}
+		</if>
+		<if test="time != ''">
+			and i.time =#{time}
+		</if>
+		<if test="inewsServer != ''">
+			and i.inewsServer =#{inewsServer}
+		</if>
+		<if test="createBy != ''">
+			and i.createBy =#{createBy}
+		</if>
+		ORDER BY i.`createTime` DESC
+	</select>
+	<select id="getInewsMonOnByTime" resultMap="inewMonOn">
+		SELECT * FROM inews_monon i
+		where i.createTime BETWEEN #{beginTime} and #{endTime}
+		ORDER BY  i.`day` DESC,i.`time` DESC
+	</select>
+
+	
+	<select id="getNCstatus" resultMap="ncstatus">
+		SELECT * FROM nc_ncstatus nc
+			WHERE nc.`createDate`  BETWEEN #{beginTime} and #{endTime}
+			GROUP BY nc.`alias` ,nc.`address`
+	</select>
+	<select id="getTestRunAlert" resultMap="testRunAlert">
+		SELECT *  FROM `run_alert` r
+			WHERE r.`createtime` BETWEEN #{beginTime} and #{endTime}
+			ORDER BY r.`createtime`  ASC
+	</select>
+	
+</mapper>

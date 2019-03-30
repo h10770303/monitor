@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.XnewsSyDao">
+
+
+	<resultMap type="com.hh.test.pojo.XnewsData" id="xnewsDataResult">
+		<id property="moid" column="moid" />
+		<result property="assetcategoryId" column="assetcategoryid"></result>
+		<result property="createdBy" column="createdby"></result>
+		<result property="bumen" column="bumen"></result>
+		<result property="assetName" column="assetname"></result>
+		<result property="creationTime" javaType="java.util.Date"
+			column="creationtime" jdbcType="TIMESTAMP"></result>
+		<result property="assetDate" javaType="java.util.Date"
+			column="assetdate" jdbcType="TIMESTAMP"></result>
+		<result property="target" column="target"></result>
+		<result property="platform" column="platform"></result>
+		<result property="site" column="site"></result>
+		<result property="createdto" column="createdto"></result>
+		<result property="videoFlag" column="videoFlag"></result>
+		<result property="picFlag" column="picFlag"></result>
+	</resultMap>
+
+
+	<!-- <select id="getAssetFromXnewsByTime" resultMap="toXnewsCntResult">
+		
+	</select> -->
+
+</mapper>

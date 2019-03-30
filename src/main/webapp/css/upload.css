@@ -1,0 +1,222 @@
+@charset "utf-8";
+
+.detail-div .upload-container{
+	width: auto;
+}
+.upload-container .left{
+	padding: 0;
+	display: none;
+}
+.upload-container .right{
+	padding: 0 0 0 8px;
+}
+.preview-container {
+	background-color: #555;
+	width: 100%;
+	height: 350px;
+}
+.preview-container:empty:after {
+	content: '暂时没有预览';
+	font-size: 1.5em;
+	color: #999;
+	text-align: center;
+	width: 100%;
+	display: block;
+	padding: 20% 0;
+}
+.preview-container audio,
+.preview-container video {
+	width: 100%;
+	height: 100%;
+}
+.preview-container img {
+	max-width: 100%;
+	max-height: 100%;
+	box-shadow: 0 0 2px 2px #fff;
+}
+div.btn-group-upload {
+	float: right;
+}
+.upload-list-container{
+	height: 300px;
+	border-radius: 5px;
+	border: 1px solid #cccccc;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.upload-list-container-suggest{
+	left: 250px;
+    top: 120px;
+    position: absolute;
+    opacity: 0.3;
+    font-size: 35px;
+}
+.upload-list-container .list-group-item{
+	opacity: 0.8;
+}
+.upload-button-bar {
+	height: 50px;
+	padding-top: 16px;
+    text-align: left;
+}
+.upload-progressbar.loaded{
+	transition: width 1s ease;
+}
+.upload-progressbar.loaded.ok{
+	width: 100%;
+}
+.upload-progressbar.toLoad{
+	transition: width 0.3s ease;
+}
+.upload-progressbar{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 100%;
+	background-color: #428bca;
+	opacity: 0.6;
+	z-index: -1;
+}
+.list-group-item {
+	position: relative;
+}
+.list-group-item .upload-checkbox{
+	display: inline-block;
+	margin-right: 10px;
+}
+.upload-file-name{
+	margin-left: 5px;
+	width: calc(70% - 130px);
+	min-width: 120px;
+	display: inline-block;
+	margin-right: 10px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	height: 20px;
+	line-height: 21px;
+}
+.upload-file-size, 
+.upload-percent, 
+.upload-speed{
+	margin-left: 30px;
+	display: inline-block;
+}
+
+.upload-list-container .list-group-item{
+	position: relative;
+	padding: 5px 15px;
+}
+.upload-list-container .list-group-item .item-toolbar {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.upload-list-container .list-group-item .item-toolbar a {
+	cursor: pointer;
+	padding: 6px 0;
+}
+.upload-list-container .list-group-item .item-toolbar a .glyphicon-remove {
+	color: red;
+}
+.upload-list-container .list-group-item:hover {
+	color: #8a6d3b;
+	background-color: rgb(195, 245, 245);
+	background-image: none;
+	text-shadow: none;
+	border-color: #ddd;
+	cursor: pointer;
+}
+.btn-upload-file{
+	width: 150px;
+	border-radius:0px;
+}
+.upload-button-bar>button{
+	margin-right: 18px;
+}
+div#aspera_web_install {
+  line-height: 50px;
+  text-align: center;
+  background: antiquewhite;
+}
+div#aspera_web_install.updatable {
+	float: left;
+	width: 280px;
+}
+.preview-container.pic {
+	height: 350px;
+	background-color: gray;
+	padding: 5px;
+	overflow: auto;
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+	display: -o-box;
+	-o-box-orient: horizontal;
+	-o-box-pack: center;
+	-o-box-align: center;
+	display: -ms-box;
+	-ms-box-orient: horizontal;
+	-ms-box-pack: center;
+	-ms-box-align: center;
+	display: box;
+	box-orient: horizontal;
+	box-pack: center;
+	box-align: center;
+}
+.upload-cancel {
+	position: absolute;
+	right: 0;
+	margin-left: 8px;
+}
+
+.upload-list-container .list-group-item[status='1'] .upload-percent,
+.upload-list-container .list-group-item[status='1'] .upload-speed,
+.upload-list-container .list-group-item[status='1'] .upload-progressbar,
+.upload-list-container .list-group-item[status='2'] .upload-percent,
+.upload-list-container .list-group-item[status='2'] .upload-speed,
+.upload-list-container .list-group-item[status='2'] .upload-progressbar {
+	display: none;
+}
+
+.upload-list-container .list-group-item[status='1'] .upload-file-name,
+.upload-list-container .list-group-item[status='2'] .upload-file-name {
+	width: 70%;
+	min-width: 250px;
+}
+
+.upload-list-container .list-group-item[status='1'] .link-download:hover,
+.upload-list-container .list-group-item[status='2'] .link-download:hover {
+	background: rgba(0,0,0,.3); 
+}
+.upload-list-container .list-group-item[status='4'] {
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+}
+.upload-list-container .list-group-item[status='4'] .upload-progressbar {
+	background-color: #ca8b42;
+}
+.upload-list-container .list-group-item[status='4'] .upload-cancel {
+	display: none;
+}
+
+.upload-list-container .list-group-item[status='5'] .item-toolbar a .glyphicon-remove {
+	display: none;
+}
+body > div.modal.fade.in > div.net-speed-test-dialog {
+	width: 522px;
+}
+body > div.modal.fade.in > div.net-speed-test-dialog div.modal-body {
+	height: 440px;
+    max-height: 440px;
+}
+#aspera_web_install {
+	top: 0 !important;
+	width: 99% !important;
+}

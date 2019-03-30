@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.UserDao">
+
+<resultMap type="com.hh.test.pojo.user.UserPojo" id="UserPojo">
+  <result property="userId" column="userId"></result>
+  <result property="userName" column="userName"></result>
+  <result property="organizationId" column="organizationId"></result>
+  <result property="organizationName" column="organizationName"></result>
+  <result property="parentId" column="parentId"></result>
+</resultMap>
+
+<resultMap type="com.hh.test.pojo.user.Organization" id="Organization">
+  <result property="organizationId" column="organizationId"></result>
+  <result property="organizationName" column="organizationName"></result>
+  <result property="organizationType" column="organizationType"></result>
+  <result property="parentId" column="parentId"></result>
+</resultMap>
+
+<select id="getUserPojo" resultMap="UserPojo">
+SELECT s.`userid`,s.`username`,o.`organizationid`,o.`organizationname`,o.`parentid` 
+ FROM `se_users` s,`se_organization_users` so ,`se_organizations` o
+WHERE s.`userid`=so.`userid`
+AND so.`organizationid`=o.`organizationid`
+AND o.`organizationtype`='部门'
+</select>
+<select id="getOrganizationById" resultMap="Organization">
+SELECT *  FROM `se_organizations` o
+WHERE o.`organizationid`=#{parentId}
+</select>
+<insert id="insertUser2">
+INSERT INTO `se_users2`(userid,username,`organizationid`,`organizationname`,createdate)
+VALUES(#{userId},#{userName},#{organizationId},#{organizationName},#{createDate})
+</insert>
+
+
+</mapper>

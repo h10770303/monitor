@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.AccountApplyDao">
+
+<resultMap type="com.hh.test.dao.entity.Xt_Apply" id="applyResult">
+  <result property="id" column="id"></result>
+  <result property="applyName" column="applyName"></result>
+  <result property="name_pinyin" column="name_pinyin"></result>
+  <result property="userId" column="userId"></result>
+  <result property="partment" column="partment"></result>
+  <result property="columns" column="columns"></result>
+  <result property="phoneNo" column="phoneNo"></result>
+  <result property="accountType" column="accountType"></result>
+  <result property="applyColum" column="applyColum"></result>
+  <result property="applyColums" column="applyColums"></result>
+  <result property="inews" column="inews"></result>
+  <result property="videos" column="videos"></result>
+  <result property="xnews" column="xnews"></result>
+  <result property="description" column="description"></result>
+  <result property="leaderName" column="leaderName"></result>
+  <result property="createDate" javaType="java.util.Date" column="createDate" jdbcType="TIMESTAMP"></result>
+  <result property="leaderName" column="leaderName"></result>
+  <result property="status" column="status"></result>
+  <result property="approveDate" javaType="java.util.Date" column="approveDate" jdbcType="TIMESTAMP"></result>
+  <result property="finsher" column="finsher"></result>
+  <result property="finshDate" javaType="java.util.Date" column="finshDate" jdbcType="TIMESTAMP"></result>
+</resultMap>
+
+
+<insert id="toApply">
+	INSERT INTO `xt_apply` (id,applyName,name_pinyin,userId,partment,columns,phoneNo,accountType,applyColum,inews,videos,xnews,description,leaderName,createDate,status)
+	values(#{id},#{applyName},#{name_pinyin},#{userId},#{partment},#{columns},#{phoneNo},#{accountType},#{applyColum},#{inews},#{videos},#{xnews},#{description},#{leaderName},#{createDate},#{status})
+</insert>
+
+<select id="getAppList" resultMap="applyResult">
+	<![CDATA[
+	SELECT *  FROM xt_apply xt
+		WHERE 1=1
+	]]>
+		<if test="applyName !='' "> and xt.`applyName` like CONCAT('%','${applyName}','%')</if>
+		<if test="name_pinyin !='' "> and xt.`name_pinyin`='${name_pinyin}'</if>
+		<if test="status !=0 ">and xt.`status` ='${status}'</if>
+		ORDER BY xt.`createDate` DESC
+		<if test="page != -1 ">limit #{page},#{rows} </if>
+</select>
+
+<select id="getApplyById" resultMap="applyResult">
+	<![CDATA[
+	SELECT xt.*,(SELECT c.columName  FROM xt_applyColum c WHERE c.id=xt.`applyColum`)applyColums 
+	 FROM xt_apply xt
+		WHERE xt.id=#{id}
+	]]>
+</select>
+
+<update id="updateApplyById">
+	update xt_apply xt set xt.status=#{status}
+	<if test="status == 1">
+		, xt.approveDate=#{date}
+	</if>
+	<if test="status == 2">
+		,xt.finsher=#{user}
+		,xt.finshDate=#{date}
+	</if>
+	where xt.id=#{id}
+</update>
+<update id="updateApply">
+	update xt_apply xt set
+	xt.status=2,xt.accountType=#{accountType},xt.inews=#{inews},xt.videos=#{videos},xt.xnews=#{xnews},xt.approveDate=#{date}
+	where xt.id=#{id}
+</update>
+
+</mapper>

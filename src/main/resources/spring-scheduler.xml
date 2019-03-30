@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="  
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
+	default-lazy-init="true">
+
+	<description>Spring </description>
+
+	<!-- scheduler 也需要像spring-mvc一样配置扫描 -->
+	<!-- 配置注解扫描 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.hh.test.*" />
+
+	<!-- Spring定时器注解开关 -->
+	<task:annotation-driven />
+	<!-- 此处对于定时时间的配置会被注解中的时间配置覆盖，因此，以注解配置为准 有问题 会执行2次 -->
+    <task:scheduled-tasks scheduler="myScheduler">
+        <task:scheduled ref="toXnewsScheduler" method="readXml" cron="0 0/2 * * * ?"/>
+        <task:scheduled ref="toXnewsScheduler" method="checkKankan" cron="0 0/2 * * * ?"/> 
+        <task:scheduled ref="monitorScheduler" method="checkCptn" cron="0 0 4,5,6,7,11,14,15,16,17,19,20 * * ? "/> 
+        <task:scheduled ref="monitorScheduler" method="checkRundown" cron="0 0 19 * * ? "/> 
+        <task:scheduled ref="monitorScheduler" method="checkS9A10Del" cron="0 0 9 * * ? "/> 
+        <task:scheduled ref="monitorScheduler" method="checkGzt" cron="0 0/30 * * * ? "/> 
+        <task:scheduled ref="monitorScheduler" method="checkPy" cron="0 0 6 * * ? "/> 
+        <task:scheduled ref="monitorScheduler" method="checkSpam" cron="0 50 6 * * ? "/> 
+        <task:scheduled ref="monitorScheduler" method="checkSppm" cron="0 50 16 * * ? "/> 
+        <task:scheduled ref="monitorScheduler" method="testRun" cron="0 30 22 * * ? "/> 
+        <task:scheduled ref="monitorScheduler" method="checkSz" cron="0 30 6 * * ? "/> 
+        
+      <!--   
+        <task:scheduled ref="candidateScheduler" method="getCandicate" cron="0 0/5 * * * ?"/>
+        <task:scheduled ref="deletePosgresScheduler" method="delte" cron="0 0/2 * * * ?"/>
+        <task:scheduled ref="logMonitorScheduler" method="readLog" cron="0 0/1 * * * ?"/> -->
+
+    </task:scheduled-tasks>
+    <task:scheduler id="myScheduler" pool-size="10"/>
+
+
+</beans>  

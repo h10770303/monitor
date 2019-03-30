@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.MonitorDao">
+
+	<resultMap type="com.hh.test.pojo.AssetByTime" id="assetByTime">
+		<id property="id" column="id" />
+		<result property="assetCategoryId" column="assetCategoryId"></result>
+		<result property="type" column="type"></result>
+		<result property="name" column="name"></result>
+		<result property="number" column="number"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="TIMESTAMP"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.bean.ClueSite" id="clueSite">
+		<result property="site" column="site"></result>
+		<result property="count" column="count"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.bean.ClueFrom" id="clueFrom">
+		<result property="bumen" column="bumen"></result>
+		<result property="count" column="count"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.bean.TopicRefcount" id="topicRefcount">
+		<result property="bumen" column="bumen"></result>
+		<result property="count" column="count"></result>
+		<result property="refcnt" column="refcnt"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.bean.TopicDesk" id="topicDesk">
+		<result property="createdto" column="createdto"></result>
+		<result property="count" column="count"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.bean.TitleTarget" id="titleTarget">
+		<result property="target" column="target"></result>
+		<result property="count" column="count"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.bean.Logon" id="logon">
+		<result property="logonType" column="logontype"></result>
+		<result property="count" column="count"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.LoginPojo" id="loginPojo">
+		<id property="id" column="id" />
+		<result property="type" column="type"></result>
+		<result property="name" column="name"></result>
+		<result property="number" column="number"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="TIMESTAMP"></result>
+	</resultMap>
+	<resultMap type="com.hh.test.pojo.rundown.CheckInterplay" id="checkInterplay">
+		<id property="id" column="id" />
+		<result property="checkname" column="checkname"></result>
+		<result property="checkresult" column="checkresult"></result>
+		<result property="checkinfo" column="checkinfo"></result>
+		<result property="checkDate" javaType="java.util.Date" column="checkDate"
+			jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+	<select id="searchAssetCt" resultType="long">
+		SELECT COUNT(0) FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`=#{type}
+		AND t.`site`=#{site}
+		AND a.`creationdate`
+		BETWEEN #{beginTime} AND #{endTime}
+	</select>
+	
+	<select id="searchClueCount" resultMap="assetByTime">
+		SELECT t.`site`name,COUNT(0)number FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`='clue'
+		AND t.`site` IS NOT NULL
+		AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+		GROUP BY t.`site`
+	</select>
+	
+	<select id="searchClueWebCount" resultMap="assetByTime">
+		SELECT t.`channelpath`name,COUNT(0)number FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`='clue'
+		AND t.`site`='报片'
+		AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+		GROUP BY t.`channelpath`
+	</select>
+	
+	<select id="searchTopicCount" resultMap="assetByTime">
+		SELECT t.`createdto`name,COUNT(0)number FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`='topic'
+		AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+		GROUP BY t.`createdto`
+	</select>
+	
+	<select id="searchTitleCount" resultMap="assetByTime">
+		SELECT t.`target` name,COUNT(0)number FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`='title'
+		AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+		AND t.`target` IS NOT NULL
+		GROUP BY t.`target`
+	</select>
+	
+	<select id="searchKankanCount" resultType="long">
+		SELECT COUNT(0)  FROM `wf_processinstancemod` wf
+		WHERE wf.`createtime` BETWEEN #{beginTime} AND #{endTime}
+	</select>
+
+	<insert id="insertAssetByTime">
+		INSERT INTO `assetbytime`(id,TYPE,NAME,createtime,number)
+		values(#{id},#{type},#{name},#{createTime},#{number})
+	</insert>
+	
+	<select id="searchClue" resultMap="assetByTime">
+		SELECT *  FROM `assetbytime` a
+		WHERE  a.`createtime`>=#{beginTime}
+		ORDER BY a.`createtime` DESC
+		LIMIT 0,33
+	</select>
+	
+	<select id="searchTopic" resultMap="assetByTime">
+		SELECT *  FROM `assetbytime` a
+		WHERE a.`type`='topic'
+		AND a.`createtime`>=#{beginTime}
+		ORDER BY a.`createtime` DESC
+		LIMIT 0,8
+	</select>
+	
+	<select id="searchTitle" resultMap="assetByTime">
+		SELECT *  FROM `assetbytime` a
+		WHERE a.`type`='title'
+		AND a.`createtime`>=#{beginTime}
+		ORDER BY a.`createtime` DESC
+		LIMIT 0,3
+	</select>
+	
+	<select id="searchLogin" resultMap="loginPojo">
+		SELECT se.`extradata`name,COUNT(0)number FROM se_sessions se
+				WHERE  se.`userid`!='sysman'
+				AND t.`site`='报片'
+				AND se.`logontime`>='2017-06-21' 
+				AND se.`state`='LOGON'
+		GROUP BY se.`extradata`
+	</select>
+	
+	<select id="getNowClueCnt" resultMap="assetByTime">
+		SELECT a.`assetcategoryid`,COUNT(0) number FROM `as_assets` a
+		WHERE a.`creationdate` BETWEEN #{startDt} AND #{endDt}
+		GROUP BY a.`assetcategoryid`
+	</select>
+	
+	<select id="getNowClueSite" resultMap="clueSite">
+		SELECT * FROM(
+			SELECT t.`site`,COUNT(0) count FROM `as_assets` a,`as_assetexts`t
+			WHERE a.`moid`=t.`moid`
+			AND a.`assetcategoryid`='clue'
+			AND t.`site` IS NOT NULL
+			-- and t.`editstatus`=2
+			AND a.`creationdate` BETWEEN  #{startDt} AND #{endDt}
+			GROUP BY t.`site`)b
+		ORDER BY b.count DESC
+	</select>
+	
+	<select id="getLogon" resultMap="logon">
+		SELECT s.`extradata` logontype,COUNT(0) count
+		 FROM se_sessions s
+		WHERE s.`userid`!='sysman'
+		AND s.`logontime`>= #{startDt}
+		AND s.`state`='LOGON'
+		GROUP BY s.`extradata`
+	</select>
+	
+	<select id="getClueFroms" resultMap="clueFrom">
+		SELECT b.bumen,COUNT(0)COUNT FROM (
+			SELECT a.`createdby`,a.`assetname`,IFNULL((SELECT s.`keyvalue` FROM `se_userproperties` s WHERE s.userid=a.`createdby`  AND s.`keyid`='businessorg'),
+			( SELECT o.`organizationname`  FROM `se_organization_users` so,`se_organizations` o
+			WHERE a.`createdby`=so.`userid`
+			AND so.`organizationid`=o.`organizationid`
+			 AND o.`organizationtype`='部门'
+			 AND o.`parentid`='e341ddccde214791a57be2d9f8d6115f') )bumen
+			 FROM `as_assets` a,`as_assetexts`t
+			WHERE a.`moid`=t.`moid`
+			AND a.`assetcategoryid`='clue'
+			AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+			AND a.`creationdate` BETWEEN  #{startDt} AND #{endDt}
+			AND t.`site`='报片'
+			)b 
+	GROUP BY b.bumen
+	</select>
+	
+	<select id="getTopicDesk" resultMap="topicDesk">
+		SELECT t.`createdto`,COUNT(0)COUNT FROM `as_assets` a,`as_assetexts`t
+			WHERE a.`moid`=t.`moid`
+			AND a.`assetcategoryid`='topic'
+			AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+			AND a.`creationdate` BETWEEN #{startDt} AND #{endDt}
+			GROUP BY t.`createdto`
+	</select>
+	
+	<select id="getTopicRefcount" resultMap="topicRefcount">
+		SELECT 0 COUNT,COUNT(0)refcnt,b.bumen  FROM(
+			SELECT a.`createdby`,IFNULL((SELECT s.`keyvalue` FROM `se_userproperties` s WHERE s.userid=a.`createdby`  AND s.`keyid`='businessorg'),
+			( SELECT o.`organizationname`  FROM `se_organization_users` so,`se_organizations` o
+			WHERE a.`createdby`=so.`userid`
+			AND so.`organizationid`=o.`organizationid`
+			 AND o.`organizationtype`='部门'
+			 AND o.`parentid`='e341ddccde214791a57be2d9f8d6115f') )bumen,a.`assetname`,a.`creationdate` 
+			 FROM `as_assets` a,`as_assetexts`t
+			WHERE a.`moid`=t.`moid`
+			AND a.`assetcategoryid`='topic'
+			AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+			AND a.`creationdate` BETWEEN #{startDt} AND #{endDt}
+			AND t.`refcount`>0
+			)b 
+			GROUP BY b.bumen
+			HAVING b.bumen IS NOT NULL
+	</select>
+	
+	<select id="getTopicFroms" resultMap="topicRefcount">
+		SELECT COUNT(0)COUNT,0 refcnt,b.bumen  FROM(
+			SELECT a.`createdby`,IFNULL((SELECT s.`keyvalue` FROM `se_userproperties` s WHERE s.userid=a.`createdby`  AND s.`keyid`='businessorg'),
+			( SELECT o.`organizationname`  FROM `se_organization_users` so,`se_organizations` o
+			WHERE a.`createdby`=so.`userid`
+			AND so.`organizationid`=o.`organizationid`
+			 AND o.`organizationtype`='部门'
+			 AND o.`parentid`='e341ddccde214791a57be2d9f8d6115f') )bumen,a.`assetname`,a.`creationdate` 
+			 FROM `as_assets` a,`as_assetexts`t
+			WHERE a.`moid`=t.`moid`
+			AND a.`assetcategoryid`='topic'
+			AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+			AND a.`creationdate` BETWEEN #{startDt} AND #{endDt}
+			)b 
+			GROUP BY b.bumen
+			HAVING b.bumen IS NOT NULL
+	</select>
+	
+	<select id="getTitleTargets" resultMap="titleTarget">
+		SELECT t.`target`,COUNT(0)count FROM `as_assets` a,`as_assetexts`t
+			WHERE a.`moid`=t.`moid`
+			AND a.`assetcategoryid`='title'
+			AND a.`creationdate` BETWEEN '2017-06-20' AND '2017-06-21'
+			GROUP BY t.`target`
+			HAVING t.`target` IS NOT NULL
+	</select>
+	
+	<select id="getCptn" resultType="int">
+	<![CDATA[
+		SELECT COUNT(0)cnt FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND t.`site`=#{site}
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+	]]>
+	</select>
+	
+	<select id="checkRundown" resultType="int">
+	<![CDATA[
+		SELECT count(0) FROM
+		nv_rundown
+		WHERE  rundownname LIKE '%新闻坊%'
+		AND createdate BETWEEN #{beginTime} AND #{endTime}
+		AND STATUS='3'
+	]]>
+	</select>
+	
+	
+	<insert id="insertCheckInterplay">
+	  INSERT INTO `checkInterplay`(id,checkDate,checkname,checkresult,checkinfo) 
+			VALUES(#{id},#{checkDate},#{checkname},#{checkresult},#{checkinfo})
+	</insert>
+	
+	<select id="getCheckInterplay" resultMap="checkInterplay">
+		SELECT *  FROM checkinterplay  c
+		WHERE c.`checkDate` BETWEEN #{beginTime} AND #{endTime}
+		ORDER BY c.`checkDate`  DESC
+	</select>
+
+</mapper>

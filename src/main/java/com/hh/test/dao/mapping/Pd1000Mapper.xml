@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.Pd1000Dao">
+
+<resultMap type="com.hh.test.pojo.pd1000.Pdduration" id="pd1000Result">
+  <result property="pddate" column="pddate"></result>
+  <result property="pdtime" column="pdtime"></result>
+  <result property="date" column="date"></result>
+  <result property="time" column="time"></result>
+  <result property="content" column="content"></result>
+  <result property="duration" column="duration"></result>
+</resultMap>
+<resultMap type="com.hh.test.pojo.pd1000.Pdduration2" id="pd1000Result2">
+  <result property="pdDate" javaType="java.util.Date" column="pdDate"
+			jdbcType="TIMESTAMP"></result>
+  <result property="durationDate" javaType="java.util.Date" column="durationDate"
+			jdbcType="TIMESTAMP"></result>
+  <result property="diff" column="diff"></result>
+  <result property="content" column="content"></result>
+  <result property="duration" column="duration"></result>
+</resultMap>
+
+<select id="getDuration" resultMap="pd1000Result">
+SELECT pd.`date` pddate,pd.`time` pdtime,d.`date` ,d.`time`,d.`content`,d.`duration` 
+FROM s1_pd1000 pd, s1_duration2 d
+WHERE TRIM(pd.`content`)=TRIM( d.`content`)
+</select>
+
+<select id="getPlaying" resultMap="pd1000Result">
+  SELECT p.`date`,p.`time`,p.`content`  FROM s1_playing2 p
+</select>
+
+<insert id="insertPdduration2">
+	INSERT INTO s1_pdduration2(pdDate,durationDate,content,diff,duration)
+	VALUES(#{pdDate},#{durationDate},#{content},#{diff},#{duration})
+</insert>
+<insert id="insertPdduration3">
+	INSERT INTO s1_pdduration3(pdDate,durationDate,content,diff)
+	VALUES(#{pdDate},#{durationDate},#{content},#{diff})
+</insert>
+<insert id="insertPdduration4">
+	INSERT INTO s1_pdduration4(pdDate,durationDate,content,diff,duration)
+	VALUES(#{pdDate},#{durationDate},#{content},#{diff},#{duration})
+</insert>
+
+<insert id="insertPlaying3">
+	INSERT INTO s1_playing3(durationDate,content)
+	VALUES(#{durationDate},#{content})
+</insert>
+
+<select id="getDurationDistic" resultMap="pd1000Result2">
+SELECT  s2.`content`,s2.`pdDate`,s2.`durationDate`,s2.`diff`,s2.`duration`
+  FROM s1_pdduration2 s2
+ORDER BY s2.`durationDate` ASC
+
+</select>
+<select id="getPlayingDistic" resultMap="pd1000Result2">
+ SELECT * FROM s1_playing3 s3
+  ORDER BY s3.`durationDate` ASC
+</select>
+<insert id="insertPlaying4">
+	INSERT INTO s1_playing4(durationDate,content)
+	VALUES(#{durationDate},#{content})
+</insert>
+
+</mapper>

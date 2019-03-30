@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.ScheduleDao">
+
+	<resultMap type="com.hh.test.pojo.AssetByTime" id="assetByTime">
+		<id property="id" column="id" />
+		<result property="type" column="type"></result>
+		<result property="name" column="name"></result>
+		<result property="number" column="number"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="DATE"></result>
+	</resultMap>
+	
+	<resultMap type="com.hh.test.pojo.LoginPojo" id="loginPojo">
+		<id property="id" column="id" />
+		<result property="type" column="type"></result>
+		<result property="name" column="name"></result>
+		<result property="number" column="number"></result>
+		<result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="DATE"></result>
+	</resultMap>
+
+	<select id="searchAssetCt" resultType="long">
+		SELECT COUNT(0) FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`=#{type}
+		AND t.`site`=#{site}
+		AND a.`creationdate`
+		BETWEEN #{beginTime} AND #{endTime}
+	</select>
+	
+	<select id="searchClueCount" resultMap="assetByTime">
+		SELECT t.`site`name,COUNT(0)number FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`='clue'
+		AND t.`site` IS NOT NULL
+		AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+		GROUP BY t.`site`
+	</select>
+	
+	<select id="searchClueWebCount" resultMap="assetByTime">
+		SELECT t.`channelpath`name,COUNT(0)number FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`='clue'
+		AND t.`site`='报片'
+		AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+		GROUP BY t.`channelpath`
+	</select>
+	
+	<select id="searchTopicCount" resultMap="assetByTime">
+		SELECT t.`createdto`name,COUNT(0)number FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`='topic'
+		AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+		GROUP BY t.`createdto`
+	</select>
+	
+	<select id="searchTitleCount" resultMap="assetByTime">
+		SELECT t.`target` name,COUNT(0)number FROM `as_assets` a,`as_assetexts`t
+		WHERE a.`moid`=t.`moid`
+		AND a.`assetcategoryid`='title'
+		AND (t.`editstatus`=2 OR t.`editstatus` IS NULL)
+		AND a.`creationdate` BETWEEN #{beginTime} AND #{endTime}
+		AND t.`target` IS NOT NULL
+		GROUP BY t.`target`
+	</select>
+	
+	<select id="searchKankanCount" resultType="long">
+		SELECT COUNT(0)  FROM `wf_processinstancemod` wf
+		WHERE wf.`createtime` BETWEEN #{beginTime} AND #{endTime}
+	</select>
+
+	<insert id="insertAssetByTime">
+		INSERT INTO `assetbytime`(id,TYPE,NAME,createtime,number)
+		values(#{id},#{type},#{name},#{createTime},#{number})
+	</insert>
+	
+	<select id="searchClue" resultMap="assetByTime">
+		SELECT *  FROM `assetbytime` a
+		WHERE  a.`createtime`>=#{beginTime}
+		ORDER BY a.`createtime` DESC
+		LIMIT 0,33
+	</select>
+	
+	<select id="searchTopic" resultMap="assetByTime">
+		SELECT *  FROM `assetbytime` a
+		WHERE a.`type`='topic'
+		AND a.`createtime`>=#{beginTime}
+		ORDER BY a.`createtime` DESC
+		LIMIT 0,8
+	</select>
+	
+	<select id="searchTitle" resultMap="assetByTime">
+		SELECT *  FROM `assetbytime` a
+		WHERE a.`type`='title'
+		AND a.`createtime`>=#{beginTime}
+		ORDER BY a.`createtime` DESC
+		LIMIT 0,3
+	</select>
+	
+	<select id="searchLogin" resultMap="loginPojo">
+SELECT se.`extradata`name,COUNT(0)number FROM se_sessions se
+		WHERE  se.`userid`!='sysman'
+		AND t.`site`='报片'
+		AND se.`logontime`>='2017-06-21' 
+		AND se.`state`='LOGON'
+GROUP BY se.`extradata`
+	</select>
+
+</mapper>

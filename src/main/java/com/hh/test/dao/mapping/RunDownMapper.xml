@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.test.dao.RunDownDao">
+
+<resultMap type="com.hh.test.pojo.weixin.OpenId" id="openIdResult">
+  <result property="id" column="id"></result>
+  <result property="userName" column="userName"></result>
+  <result property="alias" column="alias"></result>
+  <result property="openId" column="openId"></result>
+  <result property="remarks" column="remarks"></result>
+</resultMap>
+<resultMap type="com.hh.test.pojo.weixin.OpenIdLog" id="openIdLogResult">
+  <result property="id" column="id"></result>
+  <result property="userName" column="userName"></result>
+  <result property="alias" column="alias"></result>
+  <result property="openId" column="openId"></result>
+  <result property="remarks" column="remarks"></result>
+  <result property="createTime" javaType="java.util.Date" column="createTime"
+			jdbcType="TIMESTAMP"></result>
+</resultMap>
+
+
+<select id="getOpenIdById" resultMap="openIdResult">
+ SELECT *  FROM wx_openid wx
+	WHERE wx.`openid`=#{openId}
+</select>
+<select id="getOpenIdLogByDate" resultMap="openIdLogResult">
+ SELECT *  FROM wx_openidlog lg 
+WHERE lg.`createTime`>=#{date}
+ORDER BY lg.`createTime` DESC
+</select>
+
+<insert id="insertOpenIdLog">
+ 	insert into wx_openidlog(id,userName,alias,openId,remarks,createTime)
+ 	values (#{id},#{userName},#{alias},#{openId},#{remarks},#{createTime})
+</insert>
+
+</mapper>

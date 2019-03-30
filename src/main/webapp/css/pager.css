@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+.bs-paging-input {
+	display: inline;
+	width: 45px;
+	margin: 0 2px;
+	height: 24px;
+}
+.bs-paging-go-btn {
+	width: 40px;
+	padding-left: 8px;
+	margin-left: 10px;
+}
+.bs-paging-go-page-bottom {
+	
+} 
+.bs-paging-go-page-right {
+	margin-left: 18px;
+	display: inline-block;
+	float : left;
+}
+.bs-paging-go-page-left {
+	float: left;
+}
+.bs-paging-go-page-top {
+	
+}
+.bs-paging-ul-outer{
+	display: inline-block;
+	float: left;
+	margin-left: 10px;
+}
+
+.bs-paging-ul-outer .pagination{
+	margin : 0;
+}
+
+.bs-paging-per-page-container{
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}

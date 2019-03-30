@@ -1,0 +1,256 @@
+@charset "utf-8";
+/**
+由于右边的热点部分每个页面可能都需要用到，所以抽象成一个公用的css，在这个css中，定位好div的位置以后，按照以下的例子进行html构建
+整体div的宽度为325px，以下的css都是按照这个尺寸写的。
+<div class="right-pane">
+	<div class="hot-title"><h4>最新动态</h4></div>
+	<div class="hot-list">
+		<h5 class="title title-blue">报道重点</h5>
+		<ul class="list">
+			<li><a href="javascript:;"><span>奥巴马将启动移民改革 土耳其总统艾尔多</span></a></li>
+			<li><a href="javascript:;"><span>多地政府对中石油等央企变脸</span></a></li>
+			<li><a href="javascript:;"><span>地方国企央企占政府各类补贴六成</span></a></li>
+			<li><a href="javascript:;"><span>银联叫停第三方支付与银行直连 要求年底</span></a></li>
+			<li><a href="javascript:;"><span>南京明确大屠杀史为中小学必修课 课本已下</span></a></li>
+		</ul>
+	</div>
+	<div class="hot-list">
+		<h5 class="title title-green">最新报片</h5>
+		<ul class="list">
+			<li><a href="javascript:;"><span>一嗨租车上市首日破发，梦醒纽交所</span></a></li>
+			<li><a href="javascript:;"><span>62开头银行卡要向银联缴品牌费</span></a></li>
+			<li><a href="javascript:;"><span>北京市加大措施力争延续“APEC蓝”</span></a></li>
+			<li><a href="javascript:;"><span>诺基亚携N1归来再战平板市场 品牌重建</span></a></li>
+			<li><a href="javascript:;"><span>清朝邮筒变身临时邮局 亮相中国文物国际</span></a></li>
+		</ul>
+	</div>
+	<div class="hot-list">
+		<h5 class="title title-warning">热点事件</h5>
+		<ul class="list rank">
+			<li><label class="label label-danger label-xs">1</label><a href="javascript:;"><span>国务院：抓紧出台注册制 放宽小微企业</span></a></li>
+			<li><label class="label label-danger label-xs">2</label><a href="javascript:;"><span>媒体：铁路客运最快年底提价</span></a></li>
+			<li><label class="label label-danger label-xs">3</label><a href="javascript:;"><span>“新媒体新生态”分论坛亮相 命运共同体</span></a></li>
+			<li><label class="label label-default label-xs">4</label><a href="javascript:;"><span>朱光：百度传媒将亮相 加速与媒体融合</span></a></li>
+			<li><label class="label label-default label-xs">5</label><a href="javascript:;"><span>普京会见朝鲜特使 或为金正恩访俄打需要长的前站</span></a></li>
+		</ul>
+	</div>
+	<div class="hot-list">
+		<span class="title title-blue">互联网热词</span>
+		<div class="random"></div>
+	</div>
+</div>
+
+*/
+.right-pane h1,
+.right-pane h2,
+.right-pane h3,
+.right-pane h4,
+.right-pane h5,
+.right-pane h6 {
+	font-family: "微软雅黑";
+}
+.right-pane .popover-content{
+	word-break: break-all;
+}
+
+.right-pane .hot-title {
+	border-bottom: 3px solid #ddd;
+	padding: 0 10px;
+	position: relative;
+}
+.right-pane .hot-title:after {
+	position: absolute;
+	bottom: -3px;
+	left: 0;
+	right: 0;
+	height: 3px;
+	width: 100px;
+	background: #d9534f !important;
+	content: '';
+}
+.right-pane .hot-list {
+	margin-top: 20px 0;
+	position: relative;
+}
+.right-pane .hot-list .toolbar-container {
+	position: absolute;
+	right: 0;
+	top: 10px;
+}
+.right-pane .hot-list .toolbar-container .btn {
+	margin-left: 10px;
+}
+.right-pane .hot-list .list {
+	border: 1px solid #ddd;
+    list-style: outside none none;
+    margin: 0;
+    min-height: 56px;
+    padding-left: 0;
+    position: relative;
+}
+.right-pane .hot-list .rank {
+	list-style: none;
+} 
+.right-pane .hot-list .rank li {
+	position:relative;
+	height: 30px;
+}
+.right-pane .hot-list .rank .label {
+	position: absolute;
+	left: 10px;
+	top: 5px;
+}
+.right-pane .hot-list .nodata-p {
+	display: table;
+	width: 100%;
+}
+.right-pane .hot-list .nodata-p>.nodata-c {
+	height: 120px;
+	width: 100%;
+	background-color: #ECECEC;
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+}
+.right-pane .hot-list .rank a {
+	position: absolute;
+	left: 40px;
+}
+.right-pane .hot-list .list li {
+	color: #888;
+	padding-left: 10px;
+}
+
+.right-pane .report-focus .list li{
+	border-bottom: 1px solid #ddd;
+}
+.right-pane .report-focus .list li:last-child {
+	border-bottom: none;
+}
+.right-pane .report-focus .list li .delete {
+	color: red;
+	float: right;
+	margin-right: 20px;
+	display: none;
+}
+.right-pane .report-focus .list li:hover .delete {
+	display: inline-block;
+}
+.right-pane .hot-list .list li .ftitle {
+	width: 90%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+	white-space : nowrap;
+	line-height: 32px;
+}
+.right-pane .hot-list .list li .ftitle .glyphicon {
+	font-weight: lighter;
+	margin-right: 8px;
+}
+.right-pane .hot-list .rank li .ftitle {
+	width: 80%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+	white-space : nowrap;
+	line-height: 32px;
+}
+.right-pane .hot-list .title {
+	color: white;
+	padding: 5px 10px;
+	margin: 10px 0 5px 0;
+	display: inline-block;
+}
+.right-pane .hot-list .report-focus-add {
+	width: 400px;
+}
+.right-pane .hot-list .report-focus-add .toolbar {
+	float: right;
+	margin: 10px;
+}
+.right-pane .hot-list .title-blue {
+	background: #5d9cec;
+}
+.right-pane .hot-list .title-green {
+	background: green;
+}
+.right-pane .hot-list .title-warning {
+	background: #d9534f;
+}
+.right-pane .hot-list .random div {
+	float: left;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+	white-space : nowrap;
+	line-height: 40px;
+	height: 50px;
+	margin: 2px;
+	padding: 5px;
+	width: 92px;
+}
+.right-pane .hot-list .random div a {
+	color: white;
+}
+/*热门标签*/
+.right-pane .div-hot-tag {
+    position: relative;
+    margin: 0;
+    padding: 5px 0 0 5px;
+	width: 100%;
+	min-height: 185px;
+	display: table;
+	border: 1px solid #ddd;
+    list-style: outside none none;
+}
+.right-pane .div-hot-tag:after {
+	clear: both;
+}
+.right-pane .div-hot-tag a {
+	box-sizing: border-box;
+	height: 60px;
+    width: calc( (100% - 15px) / 3);
+    margin-right: 5px;
+    margin-bottom: 5px;
+
+	font-size:small;
+	font-weight:bold;
+	font-family: "微软雅黑";
+	color:#fff;
+	word-break:break-all;
+	word-wrap:break-word;
+	text-align: center;
+	float: left;
+
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+	display: -o-box;
+	-o-box-orient: horizontal;
+	-o-box-pack: center;
+	-o-box-align: center;
+	display: -ms-box;
+	-ms-box-orient: horizontal;
+	-ms-box-pack: center;
+	-ms-box-align: center;
+	display: box;
+	box-orient: horizontal;
+	box-pack: center;
+	box-align: center;
+}
+
+.right-pane .div-hot-tag a:nth-child(6n+1) { background: #0DA5D7; }
+.right-pane .div-hot-tag a:nth-child(6n+2) { background: #34C6EF; }
+.right-pane .div-hot-tag a:nth-child(6n+3) { background: #EDA491; }
+.right-pane .div-hot-tag a:nth-child(6n+4) { background: #ADAFC8; }
+.right-pane .div-hot-tag a:nth-child(6n+5) { background: #9CBC8B; }
+.right-pane .div-hot-tag a:nth-child(6n) { background: #B3A37F; }
+.right-pane .div-hot-tag a:hover { background: #000; text-decoration: none;}
+
+

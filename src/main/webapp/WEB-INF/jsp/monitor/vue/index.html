@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+
+    <body>
+        <!--这是我们的View-->
+        <div id="app">
+            <p>{{ message }}</p>
+            <input type="text" v-model="message"/>
+            
+        </div>
+        <div id="zhiling">
+      	  <!--vue.js指令  -->
+        	<h1 v-if="yes">yess</h1>
+            <h1 v-if="no">no</h1>
+            <h1 v-if="age>27">你已经不是年轻人了</h1>
+            <h1 v-else="age<=27">你还很年轻</h1>
+            <h1 v-if="name.indexOf('jack')>0">name:{{ name }}</h1>
+        </div>
+        <div id="show">
+      	  <!--vue.js指令  -->
+        	<h1 v-show="yes">yess</h1>
+            <h1 v-show="no">no</h1>
+            <h1 v-show="age>27">你已经不是年轻人了</h1>
+            <h1 v-else="age<=27">你还很年轻</h1>
+            <h1 v-show="name.indexOf('jack')>0">name:{{ name }}</h1>
+        </div>
+        
+        <!--  vfor-->
+        <div id="vfor">
+        	<table>
+        	  <thead>
+        	  	<th>Name</th>
+        	  	<th>Age</th>
+        	  	<th>Sex</th>
+        	  </thead>
+        	  <tbody>
+        	  	<tr v-for="person in people">
+        	  	<td>{{person.name}}</td>
+        	  	<td>{{person.age}}</td>
+        	  	<td>{{person.sex}}</td>
+        	  	</tr>
+        	  </tbody>
+        	</table>
+        </div>
+        
+        <!-- 综合小实例 -->
+        <div id="demo">
+         <fieldset>
+         	<legend>创建用户</legend>
+         	<div class="">
+         		<label>Name</label>
+         		<input type="text" v-model="newPerson.name"/>
+         	</div>
+         	<div>
+         		<label>Age</label>
+         		<input type="text" v-model="newPerson.name"/>
+         	</div>
+         	<div>
+         		<label>Sex</label>
+         		<select v-model=newPerson.name>
+         			<option value="male">男</option>
+         			<option value="female">女</option>
+         		</select>
+         	</div>
+         	<div class="">
+         		<label></label>
+         		<button @click="submit">提交</button>
+         	</div>
+         </fieldset>
+         
+         <table>
+         	<thead>
+         		<tr>
+         			<th>Name</th>	
+         			<th>Age</th>	
+         			<th>Sex</th>	
+         		</tr>
+         	</thead>
+         	<tbody>
+         		<tr v-for="person in people">
+         			<td>{{person.name}}</td>
+         			<td>{{person.age}}</td>
+         			<td>{{person.sex}}</td>
+         			<td class=""><button @click="deletePeople($index)">删除</button> </td>
+         		</tr>
+         	</tbody>
+         </table>
+        </div>
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+    <script>
+        // 这是我们的Model
+        var exampleData = {
+            message: '你的第一个vue.js页面'
+        }
+
+        // 创建一个 Vue 实例或 "ViewModel"
+        // 它连接 View 与 Model
+        new Vue({
+            el: '#app',
+            data: exampleData
+        })
+        
+        //第二个viewmodel
+       var vm= new Vue({
+        	el:'#zhiling',
+        	data:{
+        		yes: true,
+        		no: false,
+        		age:28,
+        		name:"humingwejackwelcome"
+        	}
+        })
+        //v-show
+       var vshow= new Vue({
+        	el:'#show',
+        	data:{
+        		yes: true,
+        		no: false,
+        		age:28,
+        		name:"humingwejackwelcome"
+        	}
+        })
+        //v-for
+        var vfor=new Vue({
+        	el:'#vfor',
+        	data:{
+        		people:[
+        		        {
+        		        	name:"humingwei",
+        		        	age:24,
+        		        	sex:'男'
+        		        },{
+        		        	name:"hmw",
+        		        	age:27,
+        		        	sex:'男'
+        		        },{
+        		        	name:"胡最帅",
+        		        	age:26,
+        		        	sex:'女'
+        		        }
+        		        ]
+        	}
+        })
+        //v-bind 绑定事件  待分析
+        //v-on 绑定时间      待分析
+        
+        //综合demo
+        vdemo=new Vue({
+        	el:'#demo',
+        	data:{
+        		people[
+       	            {
+       		        	name:"humingwei",
+       		        	age:24,
+       		        	sex:'男'
+       		        },{
+       		        	name:"hmw",
+       		        	age:27,
+       		        	sex:'男'
+       		        },{
+       		        	name:"胡最帅",
+       		        	age:26,
+       		        	sex:'女'
+       		        }
+       	            ]
+        	},
+        	//方法
+        	methods:{
+        		submit:function(){
+        			 this.people.push(this.newPerson);
+                     // 添加完newPerson对象后，重置newPerson对象
+                     this.newPerson = {name: '', age: 0, sex: 'Male'}
+        		},
+        		deletePeople(id):function(){
+        			this.people.splice(index,1);
+        		}
+        	}
+        })
+        
+    </script>
+</html>

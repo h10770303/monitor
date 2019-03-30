@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<title>监控页面展示</title>
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../../../js/echart/echarts.js"></script>
+<style type="text/css">
+
+
+ body{color:#000000;background:url(../../../images/bg.jpg) ; text-align:center} 
+
+ 
+</style>
+  <script type="text/javascript">
+    
+   
+    </script>
+</head>
+<body >
+	 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1920px;height: 1080px;"></div>
+   <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+	           
+	
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
