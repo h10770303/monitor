@@ -56,7 +56,7 @@ public class MonitorConfFlowController {
 	}
 	
 	/**
-	 * avid反推管理员查看
+	 * avid反推管用户
 	 * 
 	 * @param req
 	 * @param resp

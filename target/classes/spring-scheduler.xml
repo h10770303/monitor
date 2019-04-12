@@ -22,8 +22,8 @@
 	<task:annotation-driven />
 	<!-- 此处对于定时时间的配置会被注解中的时间配置覆盖，因此，以注解配置为准 有问题 会执行2次 -->
     <task:scheduled-tasks scheduler="myScheduler">
-        <task:scheduled ref="toXnewsScheduler" method="readXml" cron="0 0/2 * * * ?"/>
-        <task:scheduled ref="toXnewsScheduler" method="checkKankan" cron="0 0/2 * * * ?"/> 
+        <task:scheduled ref="toXnewsScheduler" method="readXml" cron="0/25 * * * * ?"/>
+        <task:scheduled ref="toXnewsScheduler" method="checkKankan" cron="0/25 * * * * ?"/> 
         <task:scheduled ref="monitorScheduler" method="checkCptn" cron="0 0 4,5,6,7,11,14,15,16,17,19,20 * * ? "/> 
         <task:scheduled ref="monitorScheduler" method="checkRundown" cron="0 0 19 * * ? "/> 
         <task:scheduled ref="monitorScheduler" method="checkS9A10Del" cron="0 0 9 * * ? "/> 

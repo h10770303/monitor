@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <!-- <meta  name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"  />
  -->
-<title>avid反推流程监控</title>
+<title>xnews流程监控系统</title>
 <link rel="stylesheet"
 	href="js/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="js/bootstrap/css/bootstrap-table.css">
@@ -49,7 +49,7 @@
 <div id="myTabContent" class="tab-content">
    	<div class=" tab-pane fade in active" id="flowInfo">
 	<div class="container-fluid " >
-		<h1 align="center">avid反推xnews流程监控</h1>
+		<h1 align="center">xnews业务监控系统</h1>
 		<div class="form-inline panel panel-default">
 			<div class="panel-body" style="margin-right: 80px;">
 				<label>开始时间：</label>

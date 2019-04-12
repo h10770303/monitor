@@ -8,27 +8,30 @@ $(function() {
 	 var date=new Date();
 	$("#startDt").val(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate()));
 	$("#endDt").val(getNextDay(date));
+	querys(); 
 	// 定时刷新
-	setInterval("querys();",60000);
-    querys(); 
-    
+	setInterval("refresh()",10000);
     $("#search_btn").click(function(){
-    	$("#empUserList").bootstrapTable('refresh', {url: 'getMonitorConfFlow.do',queryParams:function queryParams(params) { // 设置查询参数
-			var param = {
-					startDt:$("#startDt").val(),
-					endDt:$("#endDt").val(),
-					programTitle:$("#programTitle").val(),
-				pageNo : 1,
-				pageSize : params.pageSize,
-				 sortName:this.sortName,
-                 sortOrder:this.sortOrder
-			};
-			
-			return JSON.stringify(param);
-		}}); 
+    	refresh();
     });
 })  
   
+
+function refresh(){
+	$("#empUserList").bootstrapTable('refresh', {url: 'getMonitorConfFlow.do',queryParams:function queryParams(params) { // 设置查询参数
+		var param = {
+				startDt:$("#startDt").val(),
+				endDt:$("#endDt").val(),
+				programTitle:$("#programTitle").val(),
+			pageNo : 1,
+			pageSize : params.pageSize,
+			 sortName:this.sortName,
+             sortOrder:this.sortOrder
+		};
+		
+		return JSON.stringify(param);
+	}});
+}
 function getNextDay(d){
         d = new Date(d);
         d = +d + 1000*60*60*24;
